@@ -1,12 +1,22 @@
 // server.js
+import express from "express";
 import { WebSocketServer } from "ws";
+import http from "http";
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
 
 const PORT = process.env.PORT || 3001;
-const wss = new WebSocketServer({ port: PORT });
 
 console.log(`🚀 Vyoma WebSocket server running on port ${PORT}`);
 
 let waitingClient = null; // holds the user waiting for a partner
+
+// optional health check route
+app.get("/", (req, res) => {
+  res.send("Vyoma Chat WebSocket Server is running ✅");
+});
 
 wss.on("connection", (ws) => {
   console.log("👤 New client connected");
@@ -19,7 +29,7 @@ wss.on("connection", (ws) => {
     ws.send("🎯 Connected with an entrepreneur!");
     waitingClient.send("🎯 Connected with an entrepreneur!");
 
-    waitingClient = null; // clear waiting
+    waitingClient = null;
   } else {
     // Wait for another user
     ws.send("⌛ Waiting for another entrepreneur...");
@@ -42,4 +52,9 @@ wss.on("connection", (ws) => {
     if (ws.partner) ws.partner.send("⚠️ Partner disconnected.");
     if (waitingClient === ws) waitingClient = null;
   });
+});
+
+// Start both HTTP + WS on same port
+server.listen(PORT, () => {
+  console.log(`🚀 Server listening on port ${PORT}`);
 });

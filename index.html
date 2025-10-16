@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vyoma chat - by Vyoma all in one toolkit </title>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Welcome to vyomachat presented by Vyoma all in one toolkit</h1>
+<div class="box">
+    <input type="text" name="chat" id="chat" placeholder="Type your message here ...">
+    <button class="btn">send</button>
+</div>
+        </div>
+    </section>
+    
+        <script>
+  const ws = new WebSocket("wss://vyoma-chat.onrender.com"); // notice wss://
+
+  ws.onopen = () => {
+    console.log("✅ Connected to Vyoma chat server");
+    alert("Connected to Vyoma Chat!");
+  };
+
+  ws.onmessage = (event) => {
+    console.log("📩 Message:", event.data);
+    alert("Reply: " + event.data);
+  };
+
+  ws.onclose = () => console.log("🔴 Disconnected");
+
+  document.querySelector(".btn").addEventListener("click", () => {
+    const chat = document.getElementById("chat").value;
+    ws.send(chat); // send message directly through websocket
+  });
+</script>
+
+</body>
+</html>
