@@ -110,4 +110,8 @@ If you'd like, I can also:
 - Add a basic HTML client page to demo pairing locally.
 - Improve the server to support a waiting queue and simple message envelopes.
 
+<<<<<<< HEAD
 Tell me which of those you'd like and I'll implement it.
+=======
+Tell me which of those you'd like and I'll implement it.
+>>>>>>> 6fa0ca33f01a54318fa074bb127740b65ef3fb5e
